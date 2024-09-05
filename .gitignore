@@ -3,4 +3,3 @@ node_modules/
 combined.log
 src/config/config.json
 Notes_Git.md
-.gitignore
