@@ -1,0 +1,6 @@
+node_modules/
+.env
+combined.log
+src/config/config.json
+Notes_Git.md
+.gitignore
