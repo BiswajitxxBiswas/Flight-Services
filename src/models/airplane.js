@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     } ,
     capacity:{
       type : DataTypes.INTEGER,
+      validate : {
+        max : 1000,
+      }
     } 
   }, {
     sequelize,

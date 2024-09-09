@@ -9,17 +9,15 @@ async function createAirplane(req,res) {
             modelNumber : req.body.modelNumber,
             capacity : req.body.capacity
         });
-        SuccessResponse.message = "Successfully created an Airplane";
         SuccessResponse.data = airplane;
         return res
             .status(StatusCodes.CREATED)
             .json(SuccessResponse);
     } catch (error) {
-        ErrorResponse.message = "Something went wrong while creating an Airplane";
         ErrorResponse.error = error;
         return res
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
-            .json(error);
+            .json(ErrorResponse);
     }
 }
 
