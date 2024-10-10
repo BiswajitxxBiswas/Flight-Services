@@ -1,4 +1,4 @@
 
 module.exports = {
-    AirplaneRepository : require("./airpalne-respsitory"),
+    AirplaneRepository : require("./airplane-respsitory"),
 }
