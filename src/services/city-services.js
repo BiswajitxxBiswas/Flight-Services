@@ -30,7 +30,32 @@ async function getCities() {
     }
 }
 
+async function destroyCity(id){
+    try {
+        const response = await cityRespository.destroy(id);
+        return response;
+    } catch (error) {
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError("The City you requested to delete is not present",error.statusCode);
+        }
+        throw new AppError('Can not Delete City',StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+async function updateCity(id,data){
+    try {
+        const response = await cityRespository.update(id,data);
+        return response;
+    } catch (error) {
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError("The City you requested to update is not present",error.statusCode);
+        }
+        throw new AppError('Can not Update City',StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
 module.exports = {
     createCity,
-    getCities
+    getCities,
+    destroyCity,
+    updateCity
 }

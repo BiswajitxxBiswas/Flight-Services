@@ -8,6 +8,9 @@ router.post('/',
     CityMiddlewares.validateCreateRequest,
     CityController.CreateCity
 );
+
 router.get('/',CityController.getAllCities);
+router.patch('/:id',CityController.updateCity);
+router.delete('/:id',CityController.destroyCity);
 
 module.exports = router;
