@@ -53,10 +53,10 @@ async function getAllFlights(query) {
             [Op.between] : [query.tripDate , query.tripDate+ endTripTime]
         }
     }
-    if(query.sortBy){
-        const param = query.sortBy.split(",");
-        const sortFilters = params.map((param) => {param.split("_")});
-        sortFilter = {sortFilters}
+    if(query.sort) {
+        const params = query.sort.split(',');
+        const sortFilters = params.map((param) => param.split('_'));
+        sortFilter = sortFilters
     }
 
     try {
