@@ -4,6 +4,9 @@ const CrudRepository = require("./crud-repository");
 const {Flight , Airplane , Airport , City} = require('../models');
 const db = require('../models');
 const { addRowLoackOnFlights } = require('./queries');
+const AppError = require('../utils/errors/app-errors');
+const { StatusCodes } = require('http-status-codes');
+const { error } = require('../utils/common/error-response');
 
 class FlightRepository extends CrudRepository{
     constructor(){
@@ -51,14 +54,30 @@ class FlightRepository extends CrudRepository{
     }
 
     async updateRemainingSeats(flightId, seats, dec = true){
-        await db.sequelize.query(addRowLoackOnFlights(flightId));
-        const flight = await Flight.findByPk(flightId);
-        if (+dec) {
-            await flight.decrement('totalSeats', {by : seats});
-        } else {
-            await flight.increment('totalSeats', {by : seats});
+        const transaction = await db.sequelize.transaction();
+        try {
+            await db.sequelize.query(addRowLoackOnFlights(flightId));
+            const flight = await Flight.findByPk(flightId);
+
+            if(dec == true && seats > flight.totalSeats ){
+                await transaction.rollback();
+                throw error;
+            }
+            
+            if (+dec) {
+                await flight.decrement('totalSeats', {by : seats});
+            } else {
+                await flight.increment('totalSeats', {by : seats});
+            }
+
+            await transaction.commit();
+            return flight;
+
+        } catch (error) {
+            await transaction.rollback();
+            return error;
         }
-        return flight;
+        
     }
 } 
 
